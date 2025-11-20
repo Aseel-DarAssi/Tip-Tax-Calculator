@@ -5,183 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tip & Tax Calculator</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #c2e9fb 0%, #fdeff9 100%);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 40px;
-    }
-
-    .container {
-      background: #ffffff;
-      border-radius: 20px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-      padding: 30px;
-      max-width: 1200px;
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-    }
-
-    .left-panel, .right-panel {
-      flex: 1;
-      margin: 10px;
-    }
-
-    h1 {
-      text-align: center;
-      color: #6C5B7B;
-      margin-bottom: 15px;
-      font-size: 2.5em;
-    }
-
-    .subtitle {
-      text-align: center;
-      color: #355C7D;
-      margin-bottom: 30px;
-      font-size: 1.1em;
-    }
-
-    .codes-info {
-      background: #f8f9fa;
-      border: 2px solid #c06c84;
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 25px;
-      font-size: 1em;
-      color: #444;
-    }
-
-    .codes-info strong {
-      display: block;
-      margin-bottom: 10px;
-      color: #c06c84;
-      font-size: 1.1em;
-    }
-
-    .input-group {
-      margin-bottom: 20px;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 8px;
-      color: #355C7D;
-      font-weight: 600;
-      font-size: 1.05em;
-    }
-
-    label i {
-      margin-right: 8px;
-      color: #c06c84;
-    }
-
-    input {
-      width: 100%;
-      padding: 15px 18px;
-      border: 2px solid #c06c84;
-      border-radius: 12px;
-      font-size: 16px;
-      background: #fff;
-      transition: all 0.3s ease;
-    }
-
-    input:focus {
-      outline: none;
-      border-color: #6C5B7B;
-      box-shadow: 0 0 0 4px rgba(198, 134, 157, 0.2);
-    }
-
-    .button-group {
-      display: flex;
-      gap: 20px;
-      margin-top: 30px; /* Added margin to keep space between inputs and buttons */
-    }
-
-    button {
-      flex: 1;
-      padding: 16px;
-      border: none;
-      border-radius: 12px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.3s ease;
-    }
-
-    #calc {
-      background: #F8B195;
-      color: white;
-      transition: transform 0.3s, background 0.3s ease;
-    }
-
-    #calc:hover {
-      background: #F67280;
-      transform: scale(1.1);
-    }
-
-    #reset {
-      background: #C06C84;
-      color: white;
-      transition: transform 0.3s, background 0.3s ease;
-    }
-
-    #reset:hover {
-      background: #6C5B7B;
-      transform: scale(1.1);
-    }
-
-    .result-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 0;
-      border-bottom: 2px solid #e0e0e0;
-      font-size: 1.1em;
-    }
-
-    .result-item:last-child {
-      border-bottom: none;
-    }
-
-    .highlight {
-      font-weight: 700;
-      color: #c06c84;
-      font-size: 1.3em;
-    }
-
-    .results {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: flex-start;
-    }
-
-    .result-container {
-      margin-top: 30px;
-      padding: 25px;
-      background: #f1f1f1;
-      border-radius: 15px;
-      min-height: 100px;
-      width: 100%;
-    }
-
-    .result-item {
-      margin-bottom: 10px;
-    }
-
-  </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
@@ -230,6 +54,14 @@
     </div>
   </div>
     <script>
+          /*
+      Data Types in JavaScript:
+      - String (text)
+      - Number (numeric values)
+      - Boolean (true/false)
+      - Undefined (not defined)
+      - Null (empty value)
+    */
         let appVersion="1.0";
         let calculationCount=0;
         let lastCalculationTime=null;
@@ -240,20 +72,20 @@
             STUDENT: {description: "$10 off for bills of $50 or more", discount: 10},
             WEEKEND: {description: "5% off on all weekend bills", discount: 0.05}
         };
-
+  // ========== DATA TYPES ==========
         let stringExample="This is s text string";
         let numberExample=42;
         let decimalExample=3.14;
         let booleanExample=true;
         let undefinedExample;
         let nullExample=null;
-
+       // ========== DOM ELEMENTS ==========
         const calcBtn = document.getElementById('calc');
         const resetBtn = document.getElementById('reset');
         const outputDiv = document.getElementById('out');
-
+       // ========== EVENT HANDLERS ==========
         calcBtn.addEventListener('click', function(){
-
+       // Get values from inputs
         const billRaw = document.getElementById('bill').value;
         const taxRaw = document.getElementById('tax').value;
         const tipRaw = document.getElementById('tip').value;
@@ -263,7 +95,7 @@
         const taxP = Number(taxRaw);
         const tipP = Number(tipRaw);     
         const code = String(codeRaw).trim().toUpperCase(); 
-        
+        // Validate input (logical + comparison)
         const valid =
             !isNaN(bill) && bill > 0 &&
             !isNaN(taxP) && taxP >= 0 && 
@@ -273,7 +105,7 @@
             outputDiv.innerHTML = '<div class="error">please enter valid positive numbers for bill,tax and tip</div>';
             return;
         }
-
+         // Calculate tax and tip amounts
         const taxAmt = bill * (taxP / 100);
         const tipAmt = bill * (tipP / 100);        
 
@@ -283,11 +115,11 @@
         rewardPoints += 2;              
         rewardPoints *= 1.5;            
         rewardPoints **= 1;  
-
+       // String concatenation (+)
         const baseLine = "Bill: $" + bill.toFixed(2) +
                         " | Tax: $" + taxAmt.toFixed(2) +
                         " | Tip: $" + tipAmt.toFixed(2);
-
+       // ========== DISCOUNT RULES (COMPARISON + LOGICAL OPERATORS) ==========
         let discount = 0;
         let discountDescription = "";
         let discountType = "";
@@ -307,7 +139,7 @@
             discountDescription = DISCOUNT_RULES.WEEKEND.description;
             discountType = "WEEKEND";
         } 
-        
+        // ========== FINAL CALCULATIONS ==========
         const finalTotal = subtotal - discount;
 
         let outputHTML = `
@@ -343,7 +175,7 @@
                 <span class="highlight">${code || "None"}</span>
             </div>
             `;
-
+        // Display the results
         outputDiv.innerHTML = outputHTML
         
         console.log("=== BILL CALCULATION ===");
