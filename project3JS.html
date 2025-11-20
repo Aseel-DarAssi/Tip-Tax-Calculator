@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tip & Tax Calculator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #c2e9fb 0%, #fdeff9 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px;
+    }
+
+    .container {
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      max-width: 1200px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .left-panel, .right-panel {
+      flex: 1;
+      margin: 10px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #6C5B7B;
+      margin-bottom: 15px;
+      font-size: 2.5em;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #355C7D;
+      margin-bottom: 30px;
+      font-size: 1.1em;
+    }
+
+    .codes-info {
+      background: #f8f9fa;
+      border: 2px solid #c06c84;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 25px;
+      font-size: 1em;
+      color: #444;
+    }
+
+    .codes-info strong {
+      display: block;
+      margin-bottom: 10px;
+      color: #c06c84;
+      font-size: 1.1em;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #355C7D;
+      font-weight: 600;
+      font-size: 1.05em;
+    }
+
+    label i {
+      margin-right: 8px;
+      color: #c06c84;
+    }
+
+    input {
+      width: 100%;
+      padding: 15px 18px;
+      border: 2px solid #c06c84;
+      border-radius: 12px;
+      font-size: 16px;
+      background: #fff;
+      transition: all 0.3s ease;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #6C5B7B;
+      box-shadow: 0 0 0 4px rgba(198, 134, 157, 0.2);
+    }
+
+    .button-group {
+      display: flex;
+      gap: 20px;
+      margin-top: 30px; /* Added margin to keep space between inputs and buttons */
+    }
+
+    button {
+      flex: 1;
+      padding: 16px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    #calc {
+      background: #F8B195;
+      color: white;
+      transition: transform 0.3s, background 0.3s ease;
+    }
+
+    #calc:hover {
+      background: #F67280;
+      transform: scale(1.1);
+    }
+
+    #reset {
+      background: #C06C84;
+      color: white;
+      transition: transform 0.3s, background 0.3s ease;
+    }
+
+    #reset:hover {
+      background: #6C5B7B;
+      transform: scale(1.1);
+    }
+
+    .result-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+      border-bottom: 2px solid #e0e0e0;
+      font-size: 1.1em;
+    }
+
+    .result-item:last-child {
+      border-bottom: none;
+    }
+
+    .highlight {
+      font-weight: 700;
+      color: #c06c84;
+      font-size: 1.3em;
+    }
+
+    .results {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .result-container {
+      margin-top: 30px;
+      padding: 25px;
+      background: #f1f1f1;
+      border-radius: 15px;
+      min-height: 100px;
+      width: 100%;
+    }
+
+    .result-item {
+      margin-bottom: 10px;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="left-panel">
+      <h1><i class="fas fa-calculator"></i> Tip & Tax Calculator</h1>
+      <p class="subtitle">Calculate your bill with tax, tip, and discounts</p>
+
+      <div class="codes-info">
+        <strong><i class="fas fa-tags"></i> Available Discount Codes:</strong>
+        <div><strong>VIP:</strong> 10% off for bills over $200 or bills over $150 with 10%+ tip</div>
+        <div><strong>STUDENT:</strong> $10 off for bills of $50 or more</div>
+        <div><strong>WEEKEND:</strong> 5% off on all weekend bills</div>
+      </div>
+
+      <div class="input-group">
+        <label for="bill"><i class="fas fa-dollar-sign"></i> Bill Amount ($)</label>
+        <input type="number" id="bill" placeholder="Enter bill amount" step="0.01">
+      </div>
+
+      <div class="input-group">
+        <label for="tax"><i class="fas fa-receipt"></i> Tax Percentage (%)</label>
+        <input type="number" id="tax" placeholder="Enter tax percentage" step="0.1">
+      </div>
+
+      <div class="input-group">
+        <label for="tip"><i class="fas fa-utensils"></i> Tip Percentage (%)</label>
+        <input type="number" id="tip" placeholder="Enter tip percentage" step="0.1">
+      </div>
+
+      <div class="input-group">
+        <label for="code"><i class="fas fa-tag"></i> Discount Code (Optional)</label>
+        <input type="text" id="code" placeholder="Enter discount code (VIP, STUDENT, WEEKEND)">
+      </div>
+    </div>
+
+    <div class="right-panel results">
+      <div class="result-container">
+        <div class="button-group">
+          <button id="calc"><i class="fas fa-calculator"></i> Calculate</button>
+          <button id="reset"><i class="fas fa-undo"></i> Reset</button>
+        </div>
+        <div id="out">
+          <div class="result-item">Enter your bill details and click Calculate</div>
+        </div>
+      </div>
+    </div>
+  </div>
+    <script>
+        let appVersion="1.0";
+        let calculationCount=0;
+        let lastCalculationTime=null;
+
+        const APP_NAME="Tip & Tax Calculator";
+        const DISCOUNT_RULES={
+            VIP: {description: "10% off for bills over $200 or bills over $150 with 10%+ tip", discount: 0.10},
+            STUDENT: {description: "$10 off for bills of $50 or more", discount: 10},
+            WEEKEND: {description: "5% off on all weekend bills", discount: 0.05}
+        };
+
+        let stringExample="This is s text string";
+        let numberExample=42;
+        let decimalExample=3.14;
+        let booleanExample=true;
+        let undefinedExample;
+        let nullExample=null;
+
+        const calcBtn = document.getElementById('calc');
+        const resetBtn = document.getElementById('reset');
+        const outputDiv = document.getElementById('out');
+
+        calcBtn.addEventListener('click', function(){
+
+        const billRaw = document.getElementById('bill').value;
+        const taxRaw = document.getElementById('tax').value;
+        const tipRaw = document.getElementById('tip').value;
+        const codeRaw = document.getElementById('code').value;  
+        
+        const bill = Number(billRaw);
+        const taxP = Number(taxRaw);
+        const tipP = Number(tipRaw);     
+        const code = String(codeRaw).trim().toUpperCase(); 
+        
+        const valid =
+            !isNaN(bill) && bill > 0 &&
+            !isNaN(taxP) && taxP >= 0 && 
+            !isNaN(tipP) && tipP >= 0;
+
+        if (!valid){
+            outputDiv.innerHTML = '<div class="error">please enter valid positive numbers for bill,tax and tip</div>';
+            return;
+        }
+
+        const taxAmt = bill * (taxP / 100);
+        const tipAmt = bill * (tipP / 100);        
+
+        let subtotal = bill + taxAmt + tipAmt;
+
+        let rewardPoints = 5;          
+        rewardPoints += 2;              
+        rewardPoints *= 1.5;            
+        rewardPoints **= 1;  
+
+        const baseLine = "Bill: $" + bill.toFixed(2) +
+                        " | Tax: $" + taxAmt.toFixed(2) +
+                        " | Tip: $" + tipAmt.toFixed(2);
+
+        let discount = 0;
+        let discountDescription = "";
+        let discountType = "";
+
+        if (code === "VIP" && (subtotal > 200 || (bill > 150 && tipP >= 10))) {
+            discount = subtotal * 0.10;
+            discountDescription = DISCOUNT_RULES.VIP.description;
+            discountType = "VIP"
+        }
+        else if (code === "STUDENT" && subtotal >= 50) {
+            discount = 10;
+            discountDescription = DISCOUNT_RULES.STUDENT.description;
+            discountType = "STUDENT";
+        }
+        else if (code === "WEEKEND") {
+            discount = subtotal * 0.05;
+            discountDescription = DISCOUNT_RULES.WEEKEND.description;
+            discountType = "WEEKEND";
+        } 
+        
+        const finalTotal = subtotal - discount;
+
+        let outputHTML = `
+            <div class="result-item">
+                <span>Subtotal:</span>
+                <span class="highlight">$${subtotal.toFixed(2)}</span>
+            </div>
+            <div class="result-item">
+                <span>Discount Applied:</span>
+                <span class="highlight">-$${discount.toFixed(2)}</span>
+            </div>
+            <div class="result-item">
+                <span>Final Total:</span>
+                <span class="highlight">$${finalTotal.toFixed(2)}</span>
+            </div>
+            <div class="result-item">
+                <span>Reward Points Earned:</span>
+                <span class="highlight">${rewardPoints.toFixed(0)}</span>
+            </div>
+
+        `;
+
+        if (discount > 0){
+            outputHTML += `
+                <div class="discount-info">
+                    <strong>${discountType} Discount Applied!</strong><br>
+                </div> `;
+        }
+
+        outputHTML += `
+            <div class="result-item">
+                <span>Discount Code Used:</span>
+                <span class="highlight">${code || "None"}</span>
+            </div>
+            `;
+
+        outputDiv.innerHTML = outputHTML
+        
+        console.log("=== BILL CALCULATION ===");
+        console.log("Bill Amount:", bill);
+        console.log("Tax Percentage:", taxP);
+        console.log("Tip Percentage:", tipP);
+        console.log("Discount Code:", code);
+        console.log("Tax Amount:", taxAmt);
+        console.log("Tip Amount:", tipAmt);
+        console.log("Subtotal:", subtotal);
+        console.log("Discount Applied:", discount);
+        console.log("Final Total:", finalTotal);
+        console.log("Reward Points:", rewardPoints);
+        
+        console.log("=== DATA TYPES ===");
+        console.log("bill type:", typeof bill);
+        console.log("taxP type:", typeof taxP);
+        console.log("tipP type:", typeof tipP);
+        console.log("code type:", typeof code);
+        console.log("discount type:", typeof discount);
+
+        calculationCount += 1;
+        lastCalculationTime = new Date().toLocalTimeString();
+
+        console.log("=== APP STATE ===");
+        console.log("Calculation Count:", calculationCount);
+        console.log("Last Calculation:", lastCalculationTime);
+        console.log("App Version:", appVersion);
+        console.log("App Name:", APP_NAME);       
+        }
+
+            );
+        
+        resetBtn.addEventListener('click', function() {
+            document.getElementById('bill').value = '';
+            document.getElementById('tax').value = '';
+            document.getElementById('tip').value = '';
+            document.getElementById('code').value = '';
+
+            outputDiv.innerHTML = '<div class="result-item">Enter your bill details and click calculate</div>';
+            console.log("Form reset");
+        });
+
+        console.log("Tip & Tax Calculator loaded successfully!");
+        console.log("Available discount codes: VIP, STUDENT, WEEKEND");   
+    </script>
+    
+</body>
+</html>
